@@ -20,7 +20,12 @@ export function ModeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const stored = localStorage.getItem(MODE_KEY) as DemoMode | null;
-    if (stored === "demo" || stored === "live") setModeState(stored);
+    if (stored === "demo" || stored === "live") {
+      setModeState(stored);
+    } else {
+      // First visit: persist "demo" so isDemoMode() in api.ts also works
+      localStorage.setItem(MODE_KEY, "demo");
+    }
     setMounted(true);
   }, []);
 
